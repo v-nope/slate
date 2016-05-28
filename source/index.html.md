@@ -2,167 +2,172 @@
 title: API Reference
 
 language_tabs:
-  - shell
-  - ruby
-  - python
+  - postman
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
-includes:
-  - errors
 
 search: true
 ---
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Nope API! You can use our API to access Nope API endpoints, which can get information on users and in our database.
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+You can view request/reseponse examples in the dark area to the right.
 
-This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+# User 
 
-# Authentication
+This section documents API's in the nope ecosystem that allow the manipulation of users in the system.
+Operations allowed are read, create and update.
 
-> To authorize, use this code:
+## Create
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+```postman
+POST "http://replacewithhost.com/api/user"
 ```
 
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-> The above command returns JSON structured like this:
+> The above command accepts a JSON request payload structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "user_name": "john_snow",
+  "profile_picture_url": "https://s3-us-west-1.amazonaws.com/nope-nc/iknownothing.jpg",
+  "email": "john_snow@got.com",  #Required
+  "first_name": "John",
+  "last_name": "Snow"
+}
 ```
+> Response
 
-This endpoint retrieves all kittens.
+```json
+{
+  "user": {
+    "uuid": "0d549302-de2f-4c04-bc8e-0b3b967892f5",
+    "user_name": "john_snow",
+    "email": "john_snow@got.com",
+    "phone_number": null,
+    "password": null,
+    "first_name": "John",
+    "last_name": "Snow",
+    "created_at": "2016-05-27T07:32:33.828786Z",
+    "updated_at": "2016-05-27T07:32:33.828826Z",
+    "user_login_type": "facebook",
+    "is_active": true,
+    "profile_picture_url": "https://s3-us-west-1.amazonaws.com/nope-nc/iknownothing.jpg"
+  },
+  "is_registered": false
+}
+```
+This endpoint creates a new user.
+
+Check the section on the right for api request-response samples.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST http://replacewithhost.com/api/user`
+
+<aside class="notice">
+When a user_name is not provided, the api generates one for you. This will most likely be the username part of the email
+that preceedes the '@'. 
+</aside>
+
+The is_registered field in the response specifies if a user is new or an existing user. If the value of the
+parameter is false, the user signing up is a new user. The value of this parameter should be used by the mobile app
+in the first/login screen to determine if the user can be directed to the nope feeds or whether she/he has to go through
+the signup flow.
+
+<aside class="success">
+A successfull user creation call will also log you into the system!!!
+</aside>
+
+## Edit
+
+```postman
+PUT "http://replacewithhost.com/api/user"
+```
+
+> The above command accepts a JSON request payload structured like this:
+
+```json
+{
+  # None of the fields are mandatory.
+  "user_name": "john_snow",
+  "profile_picture_url": "https://s3-us-west-1.amazonaws.com/nope-nc/iknownothing.jpg",
+  "first_name": "John1",
+  "last_name": "Snow1"
+}
+```
+> Response
+
+```json
+{
+  "user": {
+    "uuid": "0d549302-de2f-4c04-bc8e-0b3b967892f5",
+    "user_name": "john_snow",
+    "email": "john_snow@got.com",
+    "phone_number": null,
+    "password": null,
+    "first_name": "John1",
+    "last_name": "Snow1",
+    "created_at": "2016-05-27T07:32:33.828786Z",
+    "updated_at": "2016-05-27T07:32:33.828826Z",
+    "user_login_type": "facebook",
+    "is_active": true,
+    "profile_picture_url": "https://s3-us-west-1.amazonaws.com/nope-nc/iknownothing.jpg"
+  },
+  "is_registered": false
+}
+```
+This endpoint updates an existing user.
+
+Check the section on the right for api request-response samples.
+
+### HTTP Request
+
+`POST http://replacewithhost.com/api/user`
+
+<aside class="notice">
+You will have to be logged in to make this api request. The user being edited is the user that
+is logged in.
+</aside>
+
+The is_registered field in the response specifies if a user is new or an existing user. If the value of the
+parameter is false, the user signing up is a new user. The value of this parameter should be used by the mobile app
+in the first/login screen to determine if the user can be directed to the nope feeds or whether she/he has to go through
+the signup flow.
+
+<aside class="success">
+Check response to make sure that the user was successfully udpated.
+</aside>
+
+## Exists
+
+```postman
+HEAD "http://replacewithhost.com/api/user/exists?user_name=john_snow"
+```
+
+> The above request accepts user_name as a query parameter.
+
+This endpoint updates an existing user.
+
+### HTTP Request
+
+`POST http://replacewithhost.com/api/user/exists`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+user_name | no default | Check if value already exists as username
+
+Since this is a HEAD request, there won't be a response body.
+Check the HTTP status for a 200 status code. If the status code is 200,
+the user name exists and cannot be used. If the status code is 404, 
+the username can be used.
 
 <aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+Check response to make sure that the user was successfully udpated.
 </aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
 
