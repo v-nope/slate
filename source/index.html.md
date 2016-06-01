@@ -150,7 +150,7 @@ HEAD "http://replacewithhost.com/api/user/exists?user_name=john_snow"
 
 > The above request accepts user_name as a query parameter.
 
-This endpoint updates an existing user.
+This endpoint is used to check if a username already exists in the database.
 
 ### HTTP Request
 
@@ -170,4 +170,95 @@ the username can be used.
 <aside class="success">
 Check response to make sure that the user was successfully udpated.
 </aside>
+
+#Nope
+This section documents API's in the nope ecosystem that allow the manipulation of nopes in the system.
+Operations allowed are read, create.
+
+## Create
+
+```postman
+POST "http://replacewithhost.com/api/nope"
+```
+
+> The above command accepts a JSON request payload structured like this:
+
+```json
+{
+  "text": "hello",
+  "tags": ["yo", "yo1"],
+  "image_url": "http://linkwithimage.com/yo.jpg",
+  "video_url": "http://linkwithvideo.com/yo.mpg"
+}
+```
+> Response
+
+```json
+{
+  "uuid": "7d7df5a8-a039-4141-9e30-010bd619561d",
+  "user_uuid": "0d549302-de2f-4c04-bc8e-0b3b967892f5",
+  "text": "hello",
+  "created_at": "2016-06-01T05:59:39.848458Z",
+  "updated_at": "2016-06-01T05:59:39.848576Z",
+  "video_url": "http://linkwithvideo.com/yo.mpg",
+  "image_url": "http://linkwithimage.com/yo.jpg"
+}
+```
+This endpoint creates a new nope.
+
+Check the section on the right for api request-response samples.
+
+### HTTP Request
+
+`POST http://replacewithhost.com/api/nope`
+
+<aside class="notice">
+Include session cookie with request. The user details are derived from the cookie.
+</aside>
+
+The image and the video url must be retrieved before making the call to create a nope.
+The resources should either be uploaded to s3 using the AWS mobile client or you could also
+use the upload api provided in the media section for this purpose.
+
+## Get
+
+```postman
+GET "http://replacewithhost.com/api/nope?page=1"
+```
+
+> Response
+
+```json
+[
+  {
+    "uuid": "7d7df5a8-a039-4141-9e30-010bd619561d",
+    "user_uuid": "0d549302-de2f-4c04-bc8e-0b3b967892f5",
+    "text": "hello",
+    "created_at": "2016-06-01T05:59:39.848458Z",
+    "updated_at": "2016-06-01T05:59:39.848576Z",
+    "video_url": "http://linkwithvideo.com/yo.mpg",
+    "image_url": "http://linkwithimage.com/yo.jpg"
+  }
+]
+```
+
+This endpoint gets all the nopes in a paginated fashion.
+
+Check the section on the right for api request-response samples.
+
+### HTTP Request
+
+`POST http://replacewithhost.com/api/nope`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+page | 1 | Page Number
+
+<aside class="notice">
+Include session cookie with request. The user details are derived from the cookie.
+</aside>
+
+When there are no more pages to show, the server throws a status code of 416
 
