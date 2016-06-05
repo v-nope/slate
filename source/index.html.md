@@ -181,27 +181,36 @@ Operations allowed are read, create.
 POST "http://replacewithhost.com/api/nope"
 ```
 
-> The above command accepts a JSON request payload structured like this:
+> The above request accepts a JSON request payload structured like this:
 
 ```json
 {
   "text": "hello",
-  "tags": ["yo", "yo1"],
   "image_url": "http://linkwithimage.com/yo.jpg",
-  "video_url": "http://linkwithvideo.com/yo.mpg"
+  "video_url": "http://linkwithvideo.com/yo.mpg",
+  "tags": ["yo", "yo1"],
+  "location": {
+      "lat": "121.00",
+      "lon": "23.00"
+  }
 }
 ```
 > Response
 
 ```json
 {
-  "uuid": "7d7df5a8-a039-4141-9e30-010bd619561d",
+  "uuid": "cbc12d07-9e76-4a8d-94bc-3b54dac38957",
   "user_uuid": "0d549302-de2f-4c04-bc8e-0b3b967892f5",
   "text": "hello",
-  "created_at": "2016-06-01T05:59:39.848458Z",
-  "updated_at": "2016-06-01T05:59:39.848576Z",
+  "created_at": "2016-06-05T05:47:21.444387Z",
+  "updated_at": "2016-06-05T05:47:21.444427Z",
   "video_url": "http://linkwithvideo.com/yo.mpg",
-  "image_url": "http://linkwithimage.com/yo.jpg"
+  "image_url": "http://linkwithimage.com/yo.jpg",
+  "tags": "[u'yo', u'yo1']",
+  "location": "{u'lat': u'121.00', u'lon': u'23.00'}",
+  "number_of_comments": 0,
+  "liked_count": 0,
+  "disliked_count": 0
 }
 ```
 This endpoint creates a new nope.
@@ -231,14 +240,21 @@ GET "http://replacewithhost.com/api/nope?page=1"
 ```json
 [
   {
-    "uuid": "7d7df5a8-a039-4141-9e30-010bd619561d",
+    "uuid": "cfa327d2-e05e-400a-926f-346fa683ef48",
     "user_uuid": "0d549302-de2f-4c04-bc8e-0b3b967892f5",
     "text": "hello",
-    "created_at": "2016-06-01T05:59:39.848458Z",
-    "updated_at": "2016-06-01T05:59:39.848576Z",
-    "video_url": "http://linkwithvideo.com/yo.mpg",
-    "image_url": "http://linkwithimage.com/yo.jpg"
-  }
+    "created_at": "2016-06-04T19:06:45.032113Z",
+    "updated_at": "2016-06-04T19:06:45.032189Z",
+    "video_url": null,
+    "image_url": null,
+    "tags": "[u'yo', u'yo1']",
+    "location": "[24.567, 54.678]",
+    "number_of_comments": 4,
+    "liked_count": 0,
+    "disliked_count": 0,
+    "has_liked": false,
+    "has_disliked": false
+  },
 ]
 ```
 
@@ -248,7 +264,7 @@ Check the section on the right for api request-response samples.
 
 ### HTTP Request
 
-`POST http://replacewithhost.com/api/nope`
+`GET http://replacewithhost.com/api/nope`
 
 ### Query Parameters
 
@@ -261,4 +277,89 @@ Include session cookie with request. The user details are derived from the cooki
 </aside>
 
 When there are no more pages to show, the server throws a status code of 416
+
+## Add Comment
+```postman
+POST "http://replacewithhost.com/api/nope/nope_uuid/comment"
+```
+
+> The above request accepts a JSON request payload structured like this:
+
+```json
+{
+  "text": "hello"
+}
+```
+> No response body. Returns "201 Created" on success
+
+
+This api lets you create a comment for a specific nope.
+
+Check the section on the right for api request-response samples.
+
+### HTTP Request
+
+`GET http://replacewithhost.com/api/nope/cfa327d2-e05e-400a-926f-346fa683ef48/comment`
+
+### Path Parameters
+
+Parameter | Description
+--------- | -----------
+nope_uuid | Uuid of the nope being commented upon
+
+<aside class="notice">
+Include session cookie with request. The user details are derived from the cookie.
+</aside>
+
+There is no response body for this api.
+
+<aside class="success">
+If the action was successful, you will receive a HTTP status code of 201.
+</aside>
+
+## Get Comments
+```postman
+POST "http://replacewithhost.com/api/nope/nope_uuid/comments"
+```
+```json
+\\This is the response
+{
+  "comments": [
+    {
+      "uuid": "dd4612ad-5c3f-4e1b-9c18-40b781121dc8",
+      "text": "Yo yo",
+      "user_uuid": "0d549302-de2f-4c04-bc8e-0b3b967892f5",
+      "created_at": "2016-06-04T19:11:19.034778Z",
+      "updated_at": "2016-06-04T19:11:19.034843Z",
+      "nope": "cfa327d2-e05e-400a-926f-346fa683ef48"
+    },
+    {
+      "uuid": "f5b82d42-df50-4f6f-8376-96dd660ecbb9",
+      "text": "Yo yo",
+      "user_uuid": "0d549302-de2f-4c04-bc8e-0b3b967892f5",
+      "created_at": "2016-06-04T19:58:01.868574Z",
+      "updated_at": "2016-06-04T19:58:01.868649Z",
+      "nope": "cfa327d2-e05e-400a-926f-346fa683ef48"
+    },
+  ]
+}
+```
+
+This api will get all comments associated to the nope
+
+Check the section on the right for api request-response samples.
+
+### HTTP Request
+
+`GET http://replacewithhost.com/api/nope/cfa327d2-e05e-400a-926f-346fa683ef48/comments`
+
+### Path Parameters
+
+Parameter | Description
+--------- | -----------
+nope_uuid | Uuid of the nope
+
+<aside class="notice">
+Include session cookie with request. The user details are derived from the cookie.
+</aside>
 
