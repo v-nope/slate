@@ -186,8 +186,8 @@ POST "http://replacewithhost.com/api/nope"
 ```json
 {
   "text": "hello",
-  "image_url": "http://linkwithimage.com/yo.jpg",
-  "video_url": "http://linkwithvideo.com/yo.mpg",
+  "image_urls": ["http://linkwithimage.com/yo.jpg", "http://linkwithimage.com/yo2.jpg"],
+  "video_urls": ["http://linkwithvideo.com/yo.mpg"],
   "tags": ["yo", "yo1"],
   "location": {
       "lat": "121.00",
@@ -225,7 +225,7 @@ Check the section on the right for api request-response samples.
 Include session cookie with request. The user details are derived from the cookie.
 </aside>
 
-The image and the video url must be retrieved before making the call to create a nope.
+The image and the video urls must be retrieved before making the call to create a nope.
 The resources should either be uploaded to s3 using the AWS mobile client or you could also
 use the upload api provided in the media section for this purpose.
 
@@ -245,8 +245,8 @@ GET "http://replacewithhost.com/api/nope?page=1"
     "text": "hello",
     "created_at": "2016-06-04T19:06:45.032113Z",
     "updated_at": "2016-06-04T19:06:45.032189Z",
-    "video_url": null,
-    "image_url": null,
+    "video_urls": null,
+    "image_urls": null,
     "tags": "[u'yo', u'yo1']",
     "location": "[24.567, 54.678]",
     "number_of_comments": 4,
@@ -299,7 +299,7 @@ Check the section on the right for api request-response samples.
 
 ### HTTP Request
 
-`GET http://replacewithhost.com/api/nope/cfa327d2-e05e-400a-926f-346fa683ef48/comment`
+`POST http://replacewithhost.com/api/nope/cfa327d2-e05e-400a-926f-346fa683ef48/comment`
 
 ### Path Parameters
 
@@ -317,9 +317,43 @@ There is no response body for this api.
 If the action was successful, you will receive a HTTP status code of 201.
 </aside>
 
+## Delete Comment
+```postman
+DELETE "http://replacewithhost.com/api/nope/nope_uuid/comment/comment_uuid"
+```
+
+> The above request does not require a payload.
+> No response body. Returns "200 OK" on success
+
+
+This api lets you delete a comment.
+
+Check the section on the right for api request-response samples.
+
+### HTTP Request
+
+`DELETE http://replacewithhost.com/api/nope/cfa327d2-e05e-400a-926f-346fa683ef48/comment/cea326d2-e05e-301a-722f-346fa633ef09/`
+
+### Path Parameters
+
+Parameter    | Description
+------------ | -----------
+nope_uuid    | Uuid of the nope whose comment is being deleted
+comment_uuid | Uuid of the comment being deleted
+
+<aside class="notice">
+Include session cookie with request. The user details are derived from the cookie.
+</aside>
+
+There is no response body for this api.
+
+<aside class="success">
+If the action was successful, you will receive a HTTP status code of 200.
+</aside>
+
 ## Get Comments
 ```postman
-POST "http://replacewithhost.com/api/nope/nope_uuid/comments"
+GET "http://replacewithhost.com/api/nope/nope_uuid/comments"
 ```
 ```json
 \\This is the response
