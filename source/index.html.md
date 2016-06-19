@@ -175,7 +175,7 @@ Check response to make sure that the user was successfully udpated.
 This section documents API's in the nope ecosystem that allow the manipulation of nopes in the system.
 Operations allowed are read, create.
 
-## Create
+## Create Nope
 
 ```postman
 POST "http://replacewithhost.com/api/nope"
@@ -229,7 +229,7 @@ The image and the video urls must be retrieved before making the call to create 
 The resources should either be uploaded to s3 using the AWS mobile client or you could also
 use the upload api provided in the media section for this purpose.
 
-## Get
+## Get Nopes
 
 ```postman
 GET "http://replacewithhost.com/api/nope?page=1"
@@ -277,6 +277,62 @@ Include session cookie with request. The user details are derived from the cooki
 </aside>
 
 When there are no more pages to show, the server throws a status code of 416
+
+## Like Nope
+
+```postman
+POST "http://replacewithhost.com/api/nope/<nope_uuid>/like"
+```
+
+> No Response body. Returns 200 OK on success.
+
+
+This endpoint likes a nope.
+
+Check the section on the right for api request-response samples.
+
+### HTTP Request
+
+`POST http://replacewithhost.com/api/nope/cfa327d2-e05e-400a-926f-346fa683ef48/like`
+
+### Query Parameters
+
+Parameter |  Description
+--------- |  -----------
+nope_uuid |  UUID of the nope being liked.
+
+<aside class="notice">
+Include session cookie with request. The user details are derived from the cookie.
+</aside>
+
+
+## Dislike Nope
+
+```postman
+POST "http://replacewithhost.com/api/nope/<nope_uuid>/dislike"
+```
+
+> No Response body. Returns 200 OK on success.
+
+
+This endpoint likes a nope.
+
+Check the section on the right for api request-response samples.
+
+### HTTP Request
+
+`POST http://replacewithhost.com/api/nope/cfa327d2-e05e-400a-926f-346fa683ef48/dislike`
+
+### Query Parameters
+
+Parameter |  Description
+--------- |  -----------
+nope_uuid |  UUID of the nope being disliked.
+
+<aside class="notice">
+Include session cookie with request. The user details are derived from the cookie.
+</aside>
+
 
 ## Add Comment
 ```postman
